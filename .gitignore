@@ -1,0 +1,6 @@
+.idea
+*.iml
+node_modules
+npm-debug.log
+out
+test/auth/AuthDetails.hx

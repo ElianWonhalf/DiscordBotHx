@@ -1,0 +1,27 @@
+{
+  "name": "discordbot-hx",
+  "version": "1.0.0",
+  "description": "A simple framework to make Discord bots in no time with the Discord.js library",
+  "main": "discordbothx/core/DiscordBot.hx",
+  "repository": "https://github.com/ElianWonhalf/DiscordBotHx",
+  "scripts": {
+    "test": "haxe -main test.TestBot -debug -D no-simplify -cp ./node_modules/nodehx -cp ./node_modules/discordhx -cp ./node_modules/msignal -cp ./ -js ./out/bot.js"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "haxe",
+    "framework",
+    "javascript",
+    "discordjs",
+    "discord.js"
+  ],
+  "author": "Elian Wonhalf",
+  "license": "ISC",
+  "dependencies": {
+    "cleverbot.io": "^1.0.4",
+    "discordhx": "^2.0.5",
+    "html-entities": "^1.2.0",
+    "msignal": "^1.2.6"
+  }
+}
