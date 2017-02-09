@@ -1,5 +1,5 @@
 {
-  "name": "discordbot-hx",
+  "name": "discordbothx",
   "version": "1.0.0",
   "description": "A simple framework to make Discord bots in no time with the Discord.js library",
   "main": "discordbothx/core/DiscordBot.hx",
