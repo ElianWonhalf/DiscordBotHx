@@ -1,5 +1,8 @@
 package discordbothx.core;
 
+import Type;
+import Std;
+import discordbothx.external.nodejs.Object;
 import nodejs.Process;
 import discordhx.Collection;
 import discordbothx.service.ICommandDefinition;
@@ -21,8 +24,8 @@ class DiscordBot {
     public var commandIdentifier: String;
     public var chatInPrivate: Bool;
     public var handleHelpDialog: Bool;
-    public var helpDialogHeader: String;
-    public var helpDialogFooter: String;
+    public var helpDialogHeader: CommunicationContext->String;
+    public var helpDialogFooter: CommunicationContext->String;
     public var commands: Collection<String, Class<ICommandDefinition>>;
 
     public static function get_instance() {
@@ -34,7 +37,7 @@ class DiscordBot {
     }
 
     private function new() {
-        if (untyped __js__('typeof Object.values') == 'undefined') {
+        if (Type.typeof(Object.values) == ValueType.TNull) {
             Logger.error('You have to run this script with the --harmony flag: node --harmony yourscript.js');
             NodeJS.process.exit(1);
         } else {
@@ -49,21 +52,11 @@ class DiscordBot {
         }
     }
 
-    private function configureDefaultValues() {
-        permissionSystem = new DefaultPermissionSystem();
-        commandIdentifier = '!';
-        chatInPrivate = false;
-        handleHelpDialog = true;
-        helpDialogHeader = null;
-        helpDialogFooter = null;
-        commands = new Collection<String, Class<ICommandDefinition>>();
-    }
-
     public function login(?tokenOrEmail: String, ?authPassword: String): Promise<String> {
         var ret: Promise<String> = new Promise<String>(
-            function (resolve: String->Void, reject: Dynamic->Void) {
-                resolve(null);
-            }
+        function (resolve: String->Void, reject: Dynamic->Void) {
+            resolve(null);
+        }
         );
         var email: String = null;
         var token: String = authDetails.DISCORD_TOKEN;
@@ -94,5 +87,19 @@ class DiscordBot {
         }
 
         return ret;
+    }
+
+    private function configureDefaultValues() {
+        var helpDialogHeaderFooter: CommunicationContext->String = function (context: CommunicationContext): String {
+            return null;
+        };
+
+        permissionSystem = new DefaultPermissionSystem();
+        commandIdentifier = '!';
+        chatInPrivate = false;
+        handleHelpDialog = true;
+        helpDialogHeader = helpDialogHeaderFooter;
+        helpDialogFooter = helpDialogHeaderFooter;
+        commands = new Collection<String, Class<ICommandDefinition>>();
     }
 }

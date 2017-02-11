@@ -141,7 +141,7 @@ class Command {
             var content = new Array<String>();
 
             if (DiscordBot.instance.helpDialogHeader != null) {
-                output = DiscordBot.instance.helpDialogHeader + '\n\n\n';
+                output = DiscordBot.instance.helpDialogHeader(context) + '\n\n\n';
             }
 
             for (cmd in DiscordBot.instance.commands.keyArray()) {
@@ -157,7 +157,7 @@ class Command {
             }
 
             if (DiscordBot.instance.helpDialogFooter != null) {
-                output += '\n' + DiscordBot.instance.helpDialogFooter;
+                output += '\n' + DiscordBot.instance.helpDialogFooter(context);
             }
 
             content = DiscordUtils.splitLongMessage(output);
