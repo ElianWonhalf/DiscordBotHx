@@ -88,20 +88,20 @@ class CommunicationContext {
         return sendEmbed(destination, embed, content, options);
     }
 
-    public function sendFileToChannel(url: String, name: String): Promise<Message> {
-        return sendFile(cast message.channel, url, name);
+    public function sendFileToChannel(url: String, name: String, ?content: StringResolvable, ?options: MessageOptions): Promise<Message> {
+        return sendFile(cast message.channel, url, name, content, options);
     }
 
-    public function sendFileToAuthor(url: String, name: String): Promise<Message> {
-        return sendFile(cast message.author, url, name);
+    public function sendFileToAuthor(url: String, name: String, ?content: StringResolvable, ?options: MessageOptions): Promise<Message> {
+        return sendFile(cast message.author, url, name, content, options);
     }
 
-    public function sendFileToOwner(url: String, name: String): Promise<Message> {
-        return sendFile(cast ownerUser, url, name);
+    public function sendFileToOwner(url: String, name: String, ?content: StringResolvable, ?options: MessageOptions): Promise<Message> {
+        return sendFile(cast ownerUser, url, name, content, options);
     }
 
-    public function sendFileTo(destination: SendableChannel, url: String, name: String): Promise<Message> {
-        return sendFile(destination, url, name);
+    public function sendFileTo(destination: SendableChannel, url: String, name: String, ?content: StringResolvable, ?options: MessageOptions): Promise<Message> {
+        return sendFile(destination, url, name, content, options);
     }
 
     private function sendMessage(destination: SendableChannel, content: String): Promise<Message> {
@@ -153,11 +153,11 @@ class CommunicationContext {
     }
 
     private function sendEmbed(destination: SendableChannel, embed: EitherType<RichEmbed, Dynamic>, ?content: String, ?options: MessageOptions): Promise<Message> {
-        return destination.sendCode(embed, content, options);
+        return destination.sendEmbed(embed, content, options);
     }
 
-    private function sendFile(destination: SendableChannel, url: String, name: String): Promise<Message> {
-        return destination.sendFile(url, name);
+    private function sendFile(destination: SendableChannel, url: String, name: String, ?content: StringResolvable, ?options: MessageOptions): Promise<Message> {
+        return destination.sendFile(url, name, content, options);
     }
 }
 
