@@ -8,8 +8,8 @@ import msignal.Signal.Signal2;
 class NotificationBus {
     public static var instance(get, null): NotificationBus;
 
-    public var cleverbotErrorNotReady: Signal0;
-    public var cleverbotErrorBotSuspected: Signal0;
+    public var cleverbotErrorNotReady: Signal1<CommunicationContext>;
+    public var cleverbotErrorBotSuspected: Signal1<CommunicationContext>;
     public var chatInPrivate: Signal1<CommunicationContext>;
     public var checkPermissionError: Signal2<CommunicationContext, String>;
     public var getDeniedCommandListError: Signal1<CommunicationContext>;
@@ -28,8 +28,8 @@ class NotificationBus {
     }
 
     private function new() {
-        cleverbotErrorNotReady = new Signal0();
-        cleverbotErrorBotSuspected = new Signal0();
+        cleverbotErrorNotReady = new Signal1<CommunicationContext>();
+        cleverbotErrorBotSuspected = new Signal1<CommunicationContext>();
         chatInPrivate = new Signal1<CommunicationContext>();
         checkPermissionError = new Signal2<CommunicationContext, String>();
         getDeniedCommandListError = new Signal1<CommunicationContext>();

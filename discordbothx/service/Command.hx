@@ -93,14 +93,14 @@ class Command {
                         name: command,
                         args: args
                     });
-                    var instance: ICommandDefinition = cast Type.createInstance(cast DiscordBot.instance.commands.get(command), [context]);
+                    var instance: BaseCommand = cast Type.createInstance(cast DiscordBot.instance.commands.get(command), [context]);
 
-                    if (args.length < instance.nbRequiredParams || args[0] == '--help' || args[0] == '-h') {
+                    if (!instance.checkFormat(args) || args[0] == '--help' || args[0] == '-h') {
                         var sendableChannel: SendableChannel = cast context.message.channel;
                         var embed = new RichEmbed();
                         var usage = DiscordBot.instance.commandIdentifier + command + ' ' + instance.paramsUsage;
 
-                        embed.setTitle('The ' + command + ' command');
+                        embed.setTitle(command);
                         embed.setDescription(instance.description + '\n\n' + usage);
                         embed.setColor(DiscordUtils.getMaterialUIColor());
 
@@ -119,7 +119,7 @@ class Command {
                         location = 'It was on server ' + guildChannel.guild.name + ' and on channel #' + guildChannel.name + ' (date : ' + Date.now().toString() + ').';
                     }
 
-                    Logger.warning('User ' + author.username + ' (' + author.id + ') tried to execute command ' + command + ' with arguments "' + args.join(' ') + '" but doesn\'t have rights. ' + location);
+                    Logger.warning('User ' + author.username + ' (' + author.id + ') tried to execute command ' + command + ' with arguments "' + args.join(' ') + '" but doesn\'t have the right to. ' + location);
                     NotificationBus.instance.unauthorizedCommand.dispatch(context, command);
                 }
             }).catchError(function (error: Dynamic) {
@@ -128,7 +128,7 @@ class Command {
                 NotificationBus.instance.checkPermissionError.dispatch(context, command);
             });
         } else {
-            var instance: ICommandDefinition = cast Type.createInstance(cast DiscordBot.instance.commands.get(command), [context]);
+            var instance: BaseCommand = cast Type.createInstance(cast DiscordBot.instance.commands.get(command), [context]);
             instance.process(args);
         }
     }
@@ -145,7 +145,7 @@ class Command {
             }
 
             for (cmd in DiscordBot.instance.commands.keyArray()) {
-                var instance: ICommandDefinition = cast Type.createInstance(cast DiscordBot.instance.commands.get(cmd), [context]);
+                var instance: BaseCommand = cast Type.createInstance(cast DiscordBot.instance.commands.get(cmd), [context]);
 
                 var hidden = instance.hidden;
                 var usage = instance.paramsUsage;

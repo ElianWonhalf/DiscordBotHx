@@ -18,11 +18,16 @@ class LoggerDesigner {
     public function design(log: String, level: LogLevel) {
         var date: String = Date.now().toString();
         var prefix: String = date + ' - ' + cast(level, String).toUpperCase();
+        var logLines: Array<String> = log.split('\n');
 
         for (i in prefix.length...PREFIX_LENGTH) {
             prefix += ' ';
         }
 
-        return prefix + ' | ' + log;
+        logLines = logLines.map(function (line: String): String {
+            return prefix + ' | ' + line;
+        });
+
+        return logLines.join('\n ');
     }
 }

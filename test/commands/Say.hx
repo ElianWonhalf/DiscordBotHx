@@ -2,15 +2,17 @@ package test.commands;
 
 import discordbothx.service.BaseCommand;
 import discordbothx.core.CommunicationContext;
-import discordbothx.service.ICommandDefinition;
 
-class Say extends BaseCommand implements ICommandDefinition {
-    public var paramsUsage:String = '<What you want me to say>';
-    public var nbRequiredParams: Int = 1;
-    public var description:String = 'Make me say something!';
-    public var hidden:Bool = false;
+class Say extends BaseCommand {
+    public function new(context: CommunicationContext): Void {
+        super(context);
 
-    public function process(args:Array<String>):Void {
+        paramsUsage = '<What you want me to say>';
+        nbRequiredParams = 1;
+        description = 'Make me say something!';
+    }
+
+    override public function process(args: Array<String>): Void {
         context.sendToChannel(args.join(' '));
     }
 }

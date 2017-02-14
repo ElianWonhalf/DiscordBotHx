@@ -135,11 +135,11 @@ class Chat {
                 });
             } else {
                 Logger.error('Bot suspected, not replying anymore for now');
-                NotificationBus.instance.cleverbotErrorBotSuspected.dispatch();
+                NotificationBus.instance.cleverbotErrorBotSuspected.dispatch(context);
             }
         } else {
             Logger.error('Received direct message when not ready to answer');
-            NotificationBus.instance.cleverbotErrorNotReady.dispatch();
+            NotificationBus.instance.cleverbotErrorNotReady.dispatch(context);
         }
     }
 

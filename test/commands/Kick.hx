@@ -5,20 +5,21 @@ import discordhx.guild.GuildMember;
 import discordbothx.core.DiscordBot;
 import discordhx.guild.Guild;
 import discordhx.channel.TextChannel;
-import discordhx.channel.GroupDMChannel;
 import discordhx.channel.ChannelType;
 import discordhx.channel.Channel;
 import discordbothx.service.BaseCommand;
 import discordbothx.core.CommunicationContext;
-import discordbothx.service.ICommandDefinition;
 
-class Kick extends BaseCommand implements ICommandDefinition {
-    public var paramsUsage:String = '<Mention of the future-ex-member> *<Mention of hypothetical other future-ex-members>*';
-    public var nbRequiredParams: Int = 1;
-    public var description:String = 'Kick someone out of this server!';
-    public var hidden:Bool = false;
+class Kick extends BaseCommand {
+    public function new(context: CommunicationContext): Void {
+        super(context);
 
-    public function process(args:Array<String>):Void {
+        paramsUsage = '<Mention of the future-ex-member> *<Mention of hypothetical other future-ex-members>*';
+        nbRequiredParams = 1;
+        description = 'Kick someone out of this server!';
+    }
+
+    override public function process(args: Array<String>): Void {
         var channel: Channel = cast context.message.channel;
 
         if (channel.type == ChannelType.TEXT) {
@@ -42,5 +43,9 @@ class Kick extends BaseCommand implements ICommandDefinition {
         } else {
             context.sendToChannel('Mate, you really think I can kick people out of a private conversation?');
         }
+    }
+
+    override public function checkFormat(args: Array<String>): Bool {
+        return super.checkFormat(args) && context.message.mentions.users.size > 0;
     }
 }

@@ -2,15 +2,17 @@ package test.commands;
 
 import discordbothx.service.BaseCommand;
 import discordbothx.core.CommunicationContext;
-import discordbothx.service.ICommandDefinition;
 
-class Roll extends BaseCommand implements ICommandDefinition {
-    public var paramsUsage:String = '<The maximum>';
-    public var nbRequiredParams: Int = 1;
-    public var description:String = 'Want to roll a dice? Just tell me how many faces it has!';
-    public var hidden:Bool = false;
+class Roll extends BaseCommand {
+    public function new(context: CommunicationContext): Void {
+        super(context);
 
-    public function process(args:Array<String>):Void {
+        paramsUsage = '<The maximum>';
+        nbRequiredParams = 1;
+        description = 'Want to roll a dice? Just tell me how many faces it has!';
+    }
+
+    override public function process(args: Array<String>): Void {
         if (!Math.isNaN(cast args.join(' '))) {
             var max = Std.parseInt(cast args.join(' '));
 
@@ -22,5 +24,9 @@ class Roll extends BaseCommand implements ICommandDefinition {
         } else {
             context.sendToChannel('Mate, you kidding me, right?');
         }
+    }
+
+    override public function checkFormat(args: Array<String>): Bool {
+        return args.length == nbRequiredParams && !Math.isNaN(cast args.join(' '));
     }
 }

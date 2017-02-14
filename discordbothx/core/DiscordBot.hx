@@ -1,11 +1,10 @@
 package discordbothx.core;
 
-import Type;
-import Std;
+import Type.ValueType;
+import discordbothx.service.BaseCommand;
 import discordbothx.external.nodejs.Object;
 import nodejs.Process;
 import discordhx.Collection;
-import discordbothx.service.ICommandDefinition;
 import discordbothx.event.ProcessEventHandler;
 import discordbothx.event.ClientEventHandler;
 import js.Promise;
@@ -26,7 +25,7 @@ class DiscordBot {
     public var handleHelpDialog: Bool;
     public var helpDialogHeader: CommunicationContext->String;
     public var helpDialogFooter: CommunicationContext->String;
-    public var commands: Collection<String, Class<ICommandDefinition>>;
+    public var commands: Collection<String, Class<BaseCommand>>;
 
     public static function get_instance() {
         if (instance == null) {
@@ -100,6 +99,6 @@ class DiscordBot {
         handleHelpDialog = true;
         helpDialogHeader = helpDialogHeaderFooter;
         helpDialogFooter = helpDialogHeaderFooter;
-        commands = new Collection<String, Class<ICommandDefinition>>();
+        commands = new Collection<String, Class<BaseCommand>>();
     }
 }
