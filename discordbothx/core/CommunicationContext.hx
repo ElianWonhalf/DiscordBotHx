@@ -40,20 +40,20 @@ class CommunicationContext {
         return sendToChannel(text);
     }
 
-    public function sendToChannel(text: String): Promise<Message> {
-        return sendMessage(cast message.channel, text);
+    public function sendToChannel(text: String, ?options: MessageOptions): Promise<Message> {
+        return sendMessage(cast message.channel, text, options);
     }
 
-    public function sendToAuthor(text: String): Promise<Message> {
-        return sendMessage(cast message.author, text);
+    public function sendToAuthor(text: String, ?options: MessageOptions): Promise<Message> {
+        return sendMessage(cast message.author, text, options);
     }
 
-    public function sendToOwner(text: String): Promise<Message> {
-        return sendMessage(cast ownerUser, text);
+    public function sendToOwner(text: String, ?options: MessageOptions): Promise<Message> {
+        return sendMessage(cast ownerUser, text, options);
     }
 
-    public function sendTo(destination: SendableChannel, text: String): Promise<Message> {
-        return sendMessage(destination, text);
+    public function sendTo(destination: SendableChannel, text: String, ?options: MessageOptions): Promise<Message> {
+        return sendMessage(destination, text, options);
     }
 
     public function sendCodeToChannel(lang: String, content: StringResolvable, ?options: MessageOptions): Promise<Message> {
@@ -104,7 +104,7 @@ class CommunicationContext {
         return sendFile(destination, url, name, content, options);
     }
 
-    private function sendMessage(destination: SendableChannel, content: String): Promise<Message> {
+    private function sendMessage(destination: SendableChannel, content: String, ?options: MessageOptions): Promise<Message> {
         var ret: Promise<Message> = null;
 
         if (content.length > DiscordUtils.MESSAGE_MAX_LENGTH) {
@@ -115,15 +115,15 @@ class CommunicationContext {
                 reject(new Error(errorMessage));
             });
         } else {
-            ret = trySendingMessage(destination, content);
+            ret = trySendingMessage(destination, content, options);
         }
 
         return ret;
     }
 
-    private function trySendingMessage(destination: SendableChannel, content: String): Promise<Message> {
+    private function trySendingMessage(destination: SendableChannel, content: String, ?options: MessageOptions): Promise<Message> {
         return new Promise<Message>(function (resolve: Message->Void, reject: Dynamic->Void) {
-            destination.sendMessage(content).then(cast function (msg: Message): Void {
+            destination.sendMessage(content, options).then(cast function (msg: Message): Void {
                 if (retriesLeft < MAX_RETRIES) {
                     Logger.info('Message successfully sent after retries');
                 }
