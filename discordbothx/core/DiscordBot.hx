@@ -51,38 +51,28 @@ class DiscordBot {
         }
     }
 
-    public function login(?tokenOrEmail: String, ?authPassword: String): Promise<String> {
+    public function login(?authToken: String, ?authPassword: String): Promise<String> {
         var ret: Promise<String> = new Promise<String>(
-        function (resolve: String->Void, reject: Dynamic->Void) {
-            resolve(null);
-        }
+            function (resolve: String->Void, reject: Dynamic->Void) {
+                resolve(null);
+            }
         );
-        var email: String = null;
         var token: String = authDetails.DISCORD_TOKEN;
         var password: String = authDetails.DISCORD_PASSWORD;
 
-        if (tokenOrEmail != null) {
-            if (tokenOrEmail.indexOf('@') > -1 && tokenOrEmail.indexOf('.') > -1) {
-                email = tokenOrEmail;
-            } else {
-                token = tokenOrEmail;
-            }
+        if (authToken != null) {
+            token = authToken;
         }
 
         if (authPassword != null) {
             password = authPassword;
         }
 
-        if (token != null || email != null) {
-            Logger.info('Logging in...');
-        }
-
         if (token != null) {
+            Logger.info('Logging in...');
             ret = client.login(token, password);
-        } else if (email != null) {
-            ret = client.login(email, password);
         } else {
-            Logger.error('You have to provide at least an e-mail or a password in order to log in');
+            Logger.error('You have to provide at least a token in order to log in');
         }
 
         return ret;
