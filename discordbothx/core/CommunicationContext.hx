@@ -107,8 +107,16 @@ class CommunicationContext {
     private function sendMessage(destination: SendableChannel, content: String, ?options: MessageOptions): Promise<Message> {
         var ret: Promise<Message> = null;
 
-        if (content.length > DiscordUtils.MESSAGE_MAX_LENGTH) {
-            var errorMessage: String = 'Content is longer than ' + DiscordUtils.MESSAGE_MAX_LENGTH + ' characters, cannot send the message';
+        if (content.length > DiscordUtils.MESSAGE_MAX_LENGTH && (options == null || options.split == null)) {
+            if (options == null) {
+                options = cast {};
+            }
+
+            options.split = true;
+        }
+
+        if (content.length < 1) {
+            var errorMessage: String = 'Cannot send an empty message';
             Logger.error(errorMessage);
 
             ret = new Promise<Message>(function (resolve: Message->Void, reject: Dynamic): Void {
