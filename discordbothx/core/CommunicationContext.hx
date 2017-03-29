@@ -3,7 +3,6 @@ package discordbothx.core;
 import discordhx.RichEmbed;
 import discordbothx.core.CommunicationContext.SendableChannel;
 import js.Error;
-import discordbothx.core.CommunicationContext.SendableChannel;
 import discordbothx.service.DiscordUtils;
 import discordhx.BufferResolvable;
 import discordhx.message.MessageOptions;
@@ -12,7 +11,6 @@ import discordhx.user.User;
 import haxe.extern.EitherType;
 import js.Promise;
 import discordbothx.log.Logger;
-import discordhx.channel.TextChannel;
 import discordhx.message.Message;
 import discordhx.client.Client;
 

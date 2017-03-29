@@ -1,5 +1,13 @@
 package discordbothx.service;
 
+import discordhx.channel.GroupDMChannel;
+import discordhx.guild.Guild;
+import discordhx.channel.ChannelType;
+import discordhx.channel.TextChannel;
+import discordhx.channel.Channel;
+import discordhx.user.User;
+import discordbothx.core.CommunicationContext;
+
 class DiscordUtils {
     public static inline var MESSAGE_MAX_LENGTH = 2000;
 
@@ -50,5 +58,26 @@ class DiscordUtils {
         ];
 
         return Std.parseInt('0x' + colors[Math.floor(Math.random() * colors.length)]);
+    }
+
+    public static function getDisplayUsername(context: CommunicationContext, ?user: User): String {
+        var displayUsername: String = null;
+        var channel: Channel = cast context.message.channel;
+
+        if (user == null) {
+            user = context.message.author;
+        }
+
+        displayUsername = user.username;
+
+        if (channel.type == ChannelType.TEXT) {
+            var guild: Guild = context.message.guild;
+
+            if (guild.members.has(user.id) && guild.member(user).nickname != null) {
+                displayUsername = guild.member(user).nickname;
+            }
+        }
+
+        return displayUsername;
     }
 }
