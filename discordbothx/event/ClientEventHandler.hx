@@ -67,7 +67,7 @@ class ClientEventHandler extends EventHandler<Client> {
             }
         } else {
             //var isForMe: Bool = message.isMemberMentioned(DiscordBot.instance.client.user); @TODO
-            var botIsMentioned: Bool = message.mentions.everyone || message.mentions.users.has(DiscordBot.instance.client.user.id);
+            var botIsMentioned: Bool = message.mentions.users.has(DiscordBot.instance.client.user.id);
 
             if (botIsMentioned) {
                 if (Chat.isFeatureEnabled()) {
